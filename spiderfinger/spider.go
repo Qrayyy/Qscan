@@ -4,18 +4,16 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/gocolly/colly"
+	wappalyzer "github.com/projectdiscovery/wappalyzergo"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 )
 
 type Finger struct {
-	Url   string
-	Title string
-	//H1          string
-	Server      string
-	XPoweredBy  string
-	ContentType string
+	Url  string
+	Apps []string
 }
 
 type Spider struct {
@@ -60,35 +58,24 @@ func (s *Spider) Runspider(args []string) {
 }
 
 func (s *Spider) SpiderUrl(url string) Finger {
-	// 创建一个colly实例
-	c := colly.NewCollector()
-
-	// 设置请求头
-	c.OnRequest(func(r *colly.Request) {
-		r.Headers.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36")
-	})
-
 	// 获取网站指纹信息
 	var finger Finger
 
 	finger.Url = url
-	c.OnResponse(func(r *colly.Response) {
-		finger.Server = r.Headers.Get("Server")
-		finger.XPoweredBy = r.Headers.Get("X-Powered-By")
-		finger.ContentType = r.Headers.Get("Content-Type")
-	})
 
-	// 获取title和h1标签
-	c.OnHTML("title", func(e *colly.HTMLElement) {
-		finger.Title = e.Text
-		//finger.H1 = e.Text
-	})
-
-	c.OnError(func(r *colly.Response, err error) {
-		log.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
-	})
-
-	err := c.Visit(url)
+	resp, err := http.DefaultClient.Get(url)
+	data, err := ioutil.ReadAll(resp.Body)
+	client, err := wappalyzer.New()
+	if err != nil {
+		log.Printf("wappalyzergo.New() failed: %s", err)
+	} else {
+		apps, err := client.Fingerprint(resp.Header, data)
+		if err != nil {
+			log.Printf("client.Fingerprint(%s) failed: %s", url, err)
+		} else {
+			finger.Apps = apps
+		}
+	}
 
 	if err != nil {
 		log.Fatalf("访问 %s 失败: %v", url, err)
