@@ -1,14 +1,12 @@
 package main
 
 import (
+	"Qscan/scan"
 	"Qscan/spiderfinger"
 	"os"
 )
 
 func main() {
 	spiderfinger.Banner()
-	spider := &spiderfinger.Spider{
-		Result: make(chan spiderfinger.Finger),
-	}
-	spider.Runspider(os.Args)
+	scan.Scanurl(os.Args)
 }
