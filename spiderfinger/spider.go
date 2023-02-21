@@ -10,9 +10,8 @@ import (
 )
 
 type Finger struct {
-	Url   string
-	Title string
-	//H1          string
+	Url         string
+	Title       string
 	Server      string
 	XPoweredBy  string
 	ContentType string
@@ -23,7 +22,6 @@ type Spider struct {
 }
 
 func (s *Spider) Runspider(args []string) {
-	//s.Result = make(chan Finger, 10)
 	url := flag.String("u", "", "url")
 	filename := flag.String("f", "", "filename")
 	flag.Parse()
@@ -42,13 +40,13 @@ func (s *Spider) Runspider(args []string) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		defer file.Close()
 
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
 			f = s.SpiderUrl(scanner.Text())
 			s.Result <- f
 		}
+		defer file.Close()
 	}
 	close(s.Result)
 }
@@ -75,7 +73,6 @@ func (s *Spider) SpiderUrl(url string) Finger {
 	// 获取title和h1标签
 	c.OnHTML("title", func(e *colly.HTMLElement) {
 		finger.Title = e.Text
-		//finger.H1 = e.Text
 	})
 
 	c.OnError(func(r *colly.Response, err error) {
