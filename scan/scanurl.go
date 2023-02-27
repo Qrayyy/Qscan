@@ -3,6 +3,7 @@ package scan
 import (
 	"Qscan/spiderfinger"
 	"fmt"
+	"net/http"
 )
 
 func Scanurl(args []string) {
@@ -13,6 +14,7 @@ func Scanurl(args []string) {
 	spider.Runspider(args)
 
 	for f := range spider.Result {
-		fmt.Println(f)
+		//fmt.Println(f)
+
 	}
 }

@@ -5,7 +5,7 @@ import (
 )
 
 func Banner() {
-	fmt.Println("\n")
+	//fmt.Println("\n")
 	fmt.Println("________")
 	fmt.Println("\\_____  \\   ______ ____ _____    ____")
 	fmt.Println("/  / \\  \\ /  ___// ___\\\\__  \\  /    \\ ")
