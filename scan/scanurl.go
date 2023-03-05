@@ -3,7 +3,6 @@ package scan
 import (
 	"Qscan/spiderfinger"
 	"fmt"
-	"net/http"
 )
 
 func Scanurl(args []string) {
@@ -14,7 +13,19 @@ func Scanurl(args []string) {
 	spider.Runspider(args)
 
 	for f := range spider.Result {
-		//fmt.Println(f)
+		fmt.Println(f)
+		var respBody string
 
+		respBody, err := Get(f.Url)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		links := spiderfinger.Spiderlinks(f.Url)
+		for _, link := range links {
+			linkBody, err := Get(link)
+
+		}
+		fmt.Printf("\n响应body:%s\n", respBody)
 	}
 }
