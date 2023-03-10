@@ -1,10 +1,10 @@
 {
   "name": "Nacos",
   "description": "Nacos未授权访问漏洞",
-  "author": "",
+  "author": "Q_ray",
   "matchers": {
-    "body": [
-      "Nacos - Naming and Config Center"
+    "keyword": [
+      "nacos"
     ]
   }
 }
