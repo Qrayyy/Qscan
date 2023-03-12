@@ -12,6 +12,6 @@ func Banner() {
 	fmt.Println("/   \\_/.  \\\\___ \\\\  \\___ / __ \\|   |  \\")
 	fmt.Println("\\_____\\ \\_/____  >\\___  >____  /___|  /")
 	fmt.Println("       \\/      \\/     \\/     \\/")
-	fmt.Println("                                                 Qscan v1.0")
+	fmt.Println("                                                 Qscan v0.1")
 	fmt.Println("                                                 Powered by Q_ray\n")
 }

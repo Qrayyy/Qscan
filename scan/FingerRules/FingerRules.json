@@ -1,10 +1,13 @@
 {
-  "name": "Nacos",
-  "description": "Nacos未授权访问漏洞",
-  "author": "Q_ray",
-  "matchers": {
-    "keyword": [
-      "nacos"
-    ]
-  }
+  "finger":[
+    {
+      "name": "Nacos",
+      "keyword": [
+          "nacos"
+      ]
+  },
+    {
+
+    }
+  ]
 }

@@ -2,6 +2,7 @@ package spiderfinger
 
 import (
 	"bufio"
+	"crypto/tls"
 	"flag"
 	"fmt"
 	"github.com/gocolly/colly/v2"
@@ -56,8 +57,11 @@ func (s *Spider) Runspider(args []string) {
 
 func (s *Spider) SpiderUrl(url string) Finger {
 	// 创建一个colly实例
-	c := colly.NewCollector()
-
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	var c = colly.NewCollector()
+	c.WithTransport(tr)
 	// 设置请求头
 	c.OnRequest(func(r *colly.Request) {
 		r.Headers.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36")
