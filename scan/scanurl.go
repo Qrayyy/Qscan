@@ -2,6 +2,7 @@ package scan
 
 import (
 	"Qscan/http"
+	"Qscan/poc"
 	"Qscan/scan/FingerRules"
 	"Qscan/spiderfinger"
 	"fmt"
@@ -32,19 +33,21 @@ func Scanurl(args []string) {
 		links := spiderfinger.Spiderlinks(f.Url)
 		fmt.Println(links)
 
-		for _, link := range links {
-			resp, err := http.Get(link, nil)
+		for _, Url := range links {
+			resp, err := http.Get(Url, nil)
 			if err != nil {
 				fmt.Println(err)
 			}
-			var keyword string
-			var flag int
-			result, keyword, err := FingerRules.Matchkeyword("E:\\software\\GoLand 2021.2.2\\Projects\\Qscan\\scan\\FingerRules\\FingerRules.json", resp.Body)
-			if result == true {
-				//调用指定指纹poc
-				flag = 1
+			keyword, err := FingerRules.Matchkeyword("E:\\software\\GoLand 2021.2.2\\Projects\\Qscan\\scan\\FingerRules\\FingerRules.json", resp.Body)
+			success, vulnsInfos := poc.RunPoc(Url, keyword)
+			if success {
+				for _, vulnInfo := range vulnsInfos {
+					for k, v := range vulnInfo {
+						fmt.Printf("%s: %s\n", k, v)
+					}
+				}
 			} else {
-				//调用所有poc
+				fmt.Println("[-]未检测出漏洞")
 			}
 		}
 

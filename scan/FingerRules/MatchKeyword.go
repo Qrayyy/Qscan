@@ -13,19 +13,19 @@ type Rule struct {
 	}
 }
 
-func Matchkeyword(filepath string, linkBody string) (bool, string, error) {
+func Matchkeyword(filepath string, linkBody string) (string, error) {
 	//读取指纹规则文件
 	rules, err := ioutil.ReadFile(filepath)
 	//fmt.Println("成功读取json文件")
 	if err != nil {
-		return false, "", err
+		return "", err
 	}
 
 	//解析json规则文件
 	var rule Rule
 	err = json.Unmarshal(rules, &rule)
 	if err != nil {
-		return false, "", err
+		return "", err
 	}
 
 	//匹配关键词
@@ -34,13 +34,13 @@ func Matchkeyword(filepath string, linkBody string) (bool, string, error) {
 		for _, keyword := range finger.Keyword {
 			b, err = matchKeyword(keyword, linkBody)
 			if b {
-				return true, keyword, err
+				return keyword, err
 			} else {
-				return false, "", err
+				return "", err
 			}
 		}
 	}
-	return false, "", err
+	return "", err
 }
 
 func matchKeyword(keyword string, content string) (bool, error) {
