@@ -13,7 +13,7 @@ type Rule struct {
 	}
 }
 
-func Matchkeyword(filepath string, linkBody string) (string, error) {
+func Matchkeyword(filepath string, respBody string) (string, error) {
 	//读取指纹规则文件
 	rules, err := ioutil.ReadFile(filepath)
 	//fmt.Println("成功读取json文件")
@@ -32,11 +32,11 @@ func Matchkeyword(filepath string, linkBody string) (string, error) {
 	b := false
 	for _, finger := range rule.Finger {
 		for _, keyword := range finger.Keyword {
-			b, err = matchKeyword(keyword, linkBody)
+			b, err = matchKeyword(keyword, respBody)
 			if b {
 				return keyword, err
 			} else {
-				return "", err
+				break
 			}
 		}
 	}

@@ -41,7 +41,6 @@ var (
 
 func Get(url string, headers map[string]string) (*Response, error) {
 	var location string
-	var respbody string
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36")
 	if err != nil {
@@ -51,7 +50,8 @@ func Get(url string, headers map[string]string) (*Response, error) {
 		req.Header[v] = []string{k}
 	}
 	resp, err := client.Do(req)
-	return &Response{resp.Status, resp.StatusCode, respbody, resp.Header, len(respbody), resp.Request.URL.String(), location}, nil
+	respbody, _ := io.ReadAll(resp.Body)
+	return &Response{resp.Status, resp.StatusCode, string(respbody), resp.Header, len(respbody), resp.Request.URL.String(), location}, nil
 	//newBody, err := io.ReadAll(resp.Body)
 	//return string(newBody), nil
 }
@@ -63,7 +63,7 @@ func post(Url string, contentType string, data interface{}, headers map[string]s
 		req     *http.Request
 	)
 	var location string
-	var respbody string
+
 	switch contentType {
 	case "application/json":
 		var jsonData []byte
@@ -142,6 +142,6 @@ func post(Url string, contentType string, data interface{}, headers map[string]s
 		req.Header[v] = []string{k}
 	}
 	resp, err := client.Do(req)
-	//newBody, err := io.ReadAll(resp.Body)
-	return &Response{resp.Status, resp.StatusCode, respbody, resp.Header, len(respbody), resp.Request.URL.String(), location}, nil
+	respbody, err := io.ReadAll(resp.Body)
+	return &Response{resp.Status, resp.StatusCode, string(respbody), resp.Header, len(respbody), resp.Request.URL.String(), location}, nil
 }

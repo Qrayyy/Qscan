@@ -11,7 +11,7 @@ type Poc struct {
 }
 
 var pocmap = map[string][]Poc{
-	"zabbix": {
+	"Zabbix SIA": {
 		{
 			vulnid:  "CVE_2022_23131",
 			Execute: zabbix.CVE_2022_23131,
@@ -31,7 +31,7 @@ func RunPoc(Url string, keyword string) (bool, []map[string]string) {
 	//用来存放成功利用的漏洞info
 	var vulns []map[string]string
 
-	//用两个for循环处理是否匹配到关键词的几种情况
+	//用两个for循环处理匹配关键词的几种情况
 	for k, v := range pocmap {
 		if keyword != "" && k != keyword {
 			//如果有关键词但是不在指纹里，则不打poc
