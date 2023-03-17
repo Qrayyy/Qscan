@@ -56,7 +56,7 @@ func Get(url string, headers map[string]string) (*Response, error) {
 	//return string(newBody), nil
 }
 
-func post(Url string, contentType string, data interface{}, headers map[string]string) (*Response, error) {
+func Post(Url string, contentType string, data interface{}, headers map[string]string) (*Response, error) {
 	var (
 		payload io.Reader
 		err     error

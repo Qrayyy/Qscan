@@ -6,12 +6,14 @@ import (
 	"Qscan/scan/FingerRules"
 	"Qscan/spiderfinger"
 	"fmt"
+	"github.com/fatih/color"
 )
 
 func Scanurl(args []string) {
 	spider := &spiderfinger.Spider{
 		Result: make(chan spiderfinger.Finger, 10),
 	}
+	red := color.New(color.FgRed).SprintFunc()
 	//执行爬虫
 	spider.Runspider(args)
 	fmt.Println("\n[+]Start scan:")
@@ -45,7 +47,7 @@ func Scanurl(args []string) {
 				if success {
 					for _, vulnInfo := range vulnsInfos {
 						for k, v := range vulnInfo {
-							fmt.Printf("%s: %s\n", k, v)
+							fmt.Printf("%s: %s\n\n", red(k), red(v))
 						}
 					}
 				}
