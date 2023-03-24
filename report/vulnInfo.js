@@ -1,0 +1,1 @@
+<script class='web-vulns'>webVulns.push({"create_time":,"detail":{"addr":"","payload":"","snapshot":[["",""]],"extra":{"param":{}}},"plugin":"","target":{"url":""}})</script>

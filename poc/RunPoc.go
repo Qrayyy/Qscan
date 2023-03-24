@@ -5,6 +5,7 @@ import (
 	"Qscan/poc/nacos"
 	"Qscan/poc/zabbix"
 	"fmt"
+	"github.com/fatih/color"
 )
 
 type Poc struct {
@@ -35,6 +36,8 @@ var pocmap = map[string][]Poc{
 }
 
 func RunPoc(Url string, keyword string) (bool, []map[string]string) {
+	green := color.New(color.FgGreen).SprintFunc()
+
 	var success bool
 	//用来存放成功利用的漏洞info
 	var vulns []map[string]string
@@ -56,7 +59,7 @@ func RunPoc(Url string, keyword string) (bool, []map[string]string) {
 	//检验是否产生了漏洞，方便其他函数调用
 	if len(vulns) == 0 {
 		success = false
-		fmt.Println("[-]未检测出漏洞")
+		fmt.Printf("%s\n\n", green("[-]未检测出漏洞"))
 	} else {
 		success = true
 	}
